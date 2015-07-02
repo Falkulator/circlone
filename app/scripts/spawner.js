@@ -9,12 +9,12 @@ function Spawner(x,y, color) {
 Spawner.prototype.update = function() {
 	this.time += dt || 0;
 	if (this.time > 1000) {
-		var p = new Part(this.x, this.y, 1 + Math.random()*5, this.color);
-		if (this.x > renderer.width/2) {
-			p.body.force[1] -= 10;
-		} else {
-			p.body.force[1] += 10;
-		}
+		var p = new Part(this.x, this.y, Game.r, this.color);
+		// if (this.x > renderer.width/2) {
+		// 	p.body.force[1] -= 10;
+		// } else {
+		// 	p.body.force[1] += 10;
+		// }
 		this.time = 0;
 	}
 

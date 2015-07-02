@@ -12,17 +12,37 @@
     dt,
     lastTime = 0,
     entities = [],
-    spawners = [];
+    spawners = [],
+    balltex,
+    IMAGE_SCALING = 25;
 
     var Game = {
         width: 800,
-        height: 600
+        height: 600,
+        swirlMax: 4,
+        swirlForce: 4,
+        centerMax: 10,
+        centerForce: 5,
+        animationDuration: 3,
+        r: 3
+
     }
 
+    var hexColor = {
+            red: '0x0066FF',
+            blue: '0xD11919',
+            white: '0xFFFFFF',
+            green: '0x66FF00',
+            purple: '0x8A008A',
+            orange: '0xFF9900',
+            yellow: '0xFFFF66'
+        }
 
 
     function init(){
 
+        var ballTexture = new PIXI.Texture.fromImage("images/ball.png")
+        balltex = new PIXI.Texture(ballTexture.baseTexture, new PIXI.math.Rectangle(0, 0, 50, 50));
         // Init p2.js
         world = new p2.World({ gravity : [0, 0]});
 
@@ -88,9 +108,11 @@
         plane.addShape(planeShape);
         world.addBody(plane);
 
-        var s1 = new Spawner(renderer.width/4, -renderer.height/2, '0x0066ff');
-        var s2 = new Spawner(renderer.width/2 + renderer.width/4, -renderer.height/2, '0xD11919');
+        var s1 = new Spawner(renderer.width/4, -renderer.height/2, hexColor.red);
+        var s2 = new Spawner(renderer.width/2 + renderer.width/4, -renderer.height/2, hexColor.blue);
   
+        manageTweens();
+
         //collision events
         world.on("beginContact",function(event){
          
@@ -101,6 +123,13 @@
                 
             }
             else if (event.bodyA.ballType != event.bodyB.ballType){
+                if (event.bodyA.ballType == hexColor.white || event.bodyB.ballType == hexColor.white) {
+                    if (event.bodyA.ballType == hexColor.white && !event.bodyB.stuck) {
+                        event.bodyA.entity.stick(event.bodyB.entity)
+                    } else if (!event.bodyA.stuck){
+                        event.bodyB.entity.stick(event.bodyA.entity)
+                    }
+                }
                 
 
 
@@ -141,7 +170,12 @@
         }
         if (Input.mouseDown) {
             var i = Input.currentMousePos;
-            var b = new Part(i.x, i.y, 1 + Math.random()*5, '0x66ff00');
+            if (Input.clicked) {
+                //var b = new Part(i.x, i.y, 1 + Math.random()*5, hexColor.green);
+                var b = new Part(i.x, i.y, 5, hexColor.white);
+                Input.clicked = false;
+            };
+            
         }
         
     }
@@ -169,6 +203,17 @@
         lastTime = t;
 
 
+    }
+
+    function manageTweens() {
+
+        // TweenMax.to(Game, 40, {centerForce: Game.centerMax, repeat:-1, yoyo:true, ease:Power2.easeInOut});
+        // TweenMax.to(Game, 40, {swirlForce: -Game.swirlMax, repeat:-1, repeatDelay:10, yoyo:true, ease:Power2.easeInOut});
+
+        //TweenMax.to(Game, 40, {centerForce: Game.centerMax, repeat:-1, yoyo:true, ease:Power2.easeInOut});
+        TweenMax.to(Game, 20, {r: 6, repeat:-1, repeatDelay:10, yoyo:true, ease:Power2.easeOut});
+
+    
     }
 
 

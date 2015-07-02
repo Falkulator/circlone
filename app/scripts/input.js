@@ -3,6 +3,7 @@ var Input = {
 }
 
 Input.init = function() {
+	this.clicked = true;
 
 	this.mouseDown = false;
 	this.currentMousePos = {x:-1, y:-1};
@@ -13,6 +14,7 @@ Input.init = function() {
 	
 	$(renderer.view).mouseup(function(event){
 		Input.mouseDown = false;
+		Input.clicked = true;
 
 	})
 	
