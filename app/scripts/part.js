@@ -162,6 +162,7 @@ Part.prototype.matchedPair = function(c) {
 }
 
 Part.prototype.remove = function(o) {
+    var o = o || this
     world.removeBody(o.body);
     container.removeChild(o.sprite);
     var i = entities.indexOf(o);

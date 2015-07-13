@@ -10,6 +10,7 @@
     <script src="bower_components/mocha/mocha.js"></script>
     <script>mocha.setup('bdd')</script>
     <script src="bower_components/chai/chai.js"></script>
+    <script src="bower_components/require/build/require.js"></script>
     <script>
         var assert = chai.assert;
         var expect = chai.expect;
@@ -17,6 +18,14 @@
     </script>
 
     <!-- include source files here... -->
+    <script src="dist/scripts/vendor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p2.js/0.6.1/p2.min.js"></script>
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/pixi/bin/pixi.js"></script>
+    <script src="/bower_components/gsap/src/uncompressed/TweenMax.js"></script>
+    <script src="dist/scripts/main.js"></script>
 
     <!-- include spec files here... -->
     <script src="spec/test.js"></script>

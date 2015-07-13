@@ -17,6 +17,25 @@ gulp.task('styles', function () {
     .pipe(reload({stream: true}));
 });
 
+gulp.task('serve:test', function () {
+  browserSync({
+    notify: false,
+    port: 9000,
+    ui: false,
+    server: {
+      baseDir: 'test',
+      routes: {
+        '/bower_components': 'bower_components',
+        '/dist': 'dist'
+      }
+    }
+  });
+  gulp.watch('app/**/*.js').on('change', function() {
+    gulp.start('build')
+  });
+  gulp.watch('test/spec/**/*.js').on('change', reload);
+});
+
 gulp.task('jshint', function () {
   return gulp.src('app/scripts/**/*.js')
     .pipe(reload({stream: true, once: true}))
@@ -105,8 +124,10 @@ gulp.task('wiredep', function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras'], function () {
+gulp.task('build', ['html', 'images', 'extras'], function () {
+  if(browserSync){browserSync.reload();};
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+  
 });
 
 gulp.task('default', ['clean'], function () {

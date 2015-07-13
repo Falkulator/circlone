@@ -29,8 +29,8 @@
     }
 
     var hexColor = {
-            red: '0x0066FF',
-            blue: '0xD11919',
+            blue: '0x0066FF',
+            red: '0xD11919',
             white: '0xFFFFFF',
             green: '0x66FF00',
             purple: '0x8A008A',
@@ -125,8 +125,10 @@
             else if (event.bodyA.ballType != event.bodyB.ballType){
                 if (event.bodyA.ballType == hexColor.white || event.bodyB.ballType == hexColor.white) {
                     if (event.bodyA.ballType == hexColor.white && !event.bodyB.stuck) {
+                        console.log(123)
                         event.bodyA.entity.stick(event.bodyB.entity)
                     } else if (!event.bodyA.stuck){
+                        console.log(123)
                         event.bodyB.entity.stick(event.bodyA.entity)
                     }
                 }
@@ -220,3 +222,6 @@
 
     init();
     animate();
+
+
+
